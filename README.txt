@@ -6,7 +6,7 @@ FILES
   profile.jpg         your photo (top of the side panel)
   gardenia-raft.jpg   Sheet 01
   admin-f14.jpg       Sheet 02
-  admin-f3.jpg        Sheet 02
+  admin-f1.jpg        Sheet 02
   dubai-sections.jpg  Sheet 03 (title block redacted)
   dubai-columns.jpg   Sheet 03 (title block redacted)
 
