@@ -2,345 +2,682 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Abdelrahman Structural BIM Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abdelrahman Hamdy — Structural BIM Portfolio</title>
+<meta name="description" content="Structural BIM engineer in Cairo. Revit structural models and model-based shop drawings for foundations, towers and villas.">
+<meta name="theme-color" content="#EEF2F8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070B14" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-/* Plan: a drawing set. Sticky index panel on the left (like a sheet index), project "sheets" on the right,
-   each with a spec table. Cool grey paper, ink, one cobalt accent. Serif display for headings, grotesk body. */
+/* Liquid glass: frosted, refractive panels floating over a slow-moving colour field.
+   Every surface uses the same .glass recipe; colours live in :root tokens. */
 :root{
-  --bg:#E9EDF2;
-  --sheet:#F8FAFC;
-  --ink:#111A26;
-  --muted:#4B5968;
-  --line:#BFC9D4;
-  --accent:#1D4ED8;
+  --bg:#EEF2F8;
+  --ink:#0B1220;
+  --muted:#4A5568;
+  --faint:#6B7689;
+  --accent:#2F5BFF;
+  --accent-2:#00B3C7;
   --on-accent:#FFFFFF;
-  --hatch:rgba(17,26,38,.07);
-  --display:"Fraunces",Georgia,"Times New Roman",serif;
-  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --glass-top:rgba(255,255,255,.62);
+  --glass-bot:rgba(255,255,255,.30);
+  --glass-edge:rgba(255,255,255,.75);
+  --glass-edge-2:rgba(255,255,255,.22);
+  --glass-line:rgba(15,23,42,.08);
+  --shadow:0 1px 1px rgba(15,23,42,.04),0 12px 40px -8px rgba(30,45,90,.18);
+  --blob-1:#7AA2FF;--blob-2:#5EE1D9;--blob-3:#C9A7FF;--blob-4:#FFC6A8;
+  --paper:#FFFFFF;
+  --radius:28px;
+  --sans:"Geist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
+  --serif:"Instrument Serif",Georgia,serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0C131C;--sheet:#121C28;--ink:#E8EEF4;--muted:#9AABBB;--line:#2A3A4B;
-    --accent:#7AA2FF;--on-accent:#0C131C;--hatch:rgba(232,238,244,.07);color-scheme:dark;
+    --bg:#070B14;--ink:#EEF2F8;--muted:#A6B1C4;--faint:#7D889C;
+    --accent:#7C9BFF;--accent-2:#3EE0D0;--on-accent:#070B14;
+    --glass-top:rgba(255,255,255,.10);--glass-bot:rgba(255,255,255,.035);
+    --glass-edge:rgba(255,255,255,.22);--glass-edge-2:rgba(255,255,255,.05);
+    --glass-line:rgba(255,255,255,.08);
+    --shadow:0 1px 1px rgba(0,0,0,.3),0 20px 50px -12px rgba(0,0,0,.6);
+    --blob-1:#2C4BFF;--blob-2:#00A6A6;--blob-3:#7A3CFF;--blob-4:#FF6A3D;
+    --paper:#F4F6FA;color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0C131C;--sheet:#121C28;--ink:#E8EEF4;--muted:#9AABBB;--line:#2A3A4B;
-  --accent:#7AA2FF;--on-accent:#0C131C;--hatch:rgba(232,238,244,.07);color-scheme:dark;
+  --bg:#070B14;--ink:#EEF2F8;--muted:#A6B1C4;--faint:#7D889C;
+  --accent:#7C9BFF;--accent-2:#3EE0D0;--on-accent:#070B14;
+  --glass-top:rgba(255,255,255,.10);--glass-bot:rgba(255,255,255,.035);
+  --glass-edge:rgba(255,255,255,.22);--glass-edge-2:rgba(255,255,255,.05);
+  --glass-line:rgba(255,255,255,.08);
+  --shadow:0 1px 1px rgba(0,0,0,.3),0 20px 50px -12px rgba(0,0,0,.6);
+  --blob-1:#2C4BFF;--blob-2:#00A6A6;--blob-3:#7A3CFF;--blob-4:#FF6A3D;
+  --paper:#F4F6FA;color-scheme:dark;
 }
+
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 p{margin:0}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;line-height:1.04;text-wrap:balance;letter-spacing:-.01em}
+img{max-width:100%}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.025em;line-height:1.05;text-wrap:balance}
+em.serif,.serif{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:3px;border-radius:10px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-.page{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+/* ---------- colour field ---------- */
+.field{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.field i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;will-change:transform}
+.field i:nth-child(1){width:52vmax;height:52vmax;left:-14vmax;top:-18vmax;background:var(--blob-1);animation:drift1 28s ease-in-out infinite alternate}
+.field i:nth-child(2){width:44vmax;height:44vmax;right:-16vmax;top:8vmax;background:var(--blob-2);animation:drift2 34s ease-in-out infinite alternate}
+.field i:nth-child(3){width:40vmax;height:40vmax;left:20vmax;bottom:-22vmax;background:var(--blob-3);animation:drift3 30s ease-in-out infinite alternate}
+.field i:nth-child(4){width:26vmax;height:26vmax;right:12vmax;bottom:6vmax;background:var(--blob-4);opacity:.35;animation:drift1 38s ease-in-out infinite alternate-reverse}
+.field::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(var(--glass-line) 1px,transparent 1px),linear-gradient(90deg,var(--glass-line) 1px,transparent 1px);
+  background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%)}
+@keyframes drift1{to{transform:translate(12vmax,10vmax) scale(1.1)}}
+@keyframes drift2{to{transform:translate(-10vmax,14vmax) scale(.92)}}
+@keyframes drift3{to{transform:translate(8vmax,-12vmax) scale(1.08)}}
 
-/* side index */
-.side{position:sticky;top:0;height:100vh;padding:28px 28px 24px;border-right:1px solid var(--line);background:var(--sheet);display:flex;flex-direction:column;gap:28px}
-.mark{width:84px;height:84px;display:block;object-fit:cover;object-position:50% 22%;border:1px solid var(--line);background:var(--sheet)}
-.side h1{font-size:30px}
-.side .role{margin-top:8px;color:var(--muted);font-size:15px}
-.index{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.index a{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none;font-weight:600}
-.index a span{font-family:var(--mono);font-size:12px;color:var(--muted)}
-.index a:hover,.index a:focus-visible{color:var(--accent)}
-.status{display:flex;gap:10px;align-items:center}
-.status i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
-.side .push{margin-top:auto;display:grid;gap:10px}
-.side .push p:not(.mono){font-family:var(--mono);font-size:13px;overflow-wrap:anywhere}
+/* ---------- glass recipe ---------- */
+.glass{position:relative;isolation:isolate;border-radius:var(--radius);
+  background:linear-gradient(155deg,var(--glass-top),var(--glass-bot));
+  -webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
+  box-shadow:var(--shadow),inset 0 1px 0 var(--glass-edge),inset 0 -1px 0 var(--glass-edge-2);
+  border:1px solid var(--glass-edge-2)}
+/* specular rim + pointer sheen */
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;z-index:-1;pointer-events:none;
+  background:linear-gradient(135deg,var(--glass-edge),transparent 38%,transparent 62%,var(--glass-edge));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.glass.shine::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.28),transparent 45%)}
+.glass.shine:hover::after{opacity:1}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{background:var(--bg)}
+}
 
-/* main */
-.main{min-width:0;padding:0 clamp(20px,5vw,72px)}
-.intro{padding:88px 0 72px;border-bottom:1px solid var(--line)}
-.intro h2{font-size:clamp(44px,6.4vw,92px);max-width:16ch}
-.intro h2 em{font-style:italic;color:var(--accent)}
-.intro .lede{margin-top:24px;max-width:46ch;color:var(--muted);font-size:19px}
-.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--ink)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:500}
-.btn.primary:hover{filter:brightness(1.1)}
-.btn.ghost:hover{background:var(--sheet)}
-.fig{background:var(--sheet);border:1px solid var(--line);padding:14px}
-.fig svg{display:block;width:100%;height:auto}
-.fig figcaption{margin-top:8px}
-svg .ln{stroke:var(--ink);fill:none;stroke-width:2}
-svg .thin{stroke:var(--ink);fill:none;stroke-width:1}
-svg .dim{stroke:var(--muted);fill:none;stroke-width:1}
-svg .stir{stroke:var(--accent);fill:none;stroke-width:3}
-svg .bar{fill:var(--ink)}
-svg .lbl{font-family:var(--mono);font-size:11px;fill:var(--ink);letter-spacing:.04em}
-svg .lblm{font-family:var(--mono);font-size:11px;fill:var(--muted);letter-spacing:.04em}
-svg .hatch{stroke:var(--line);stroke-width:1}
+/* ---------- nav ---------- */
+.nav{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:50;
+  display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;width:max-content;max-width:calc(100% - 24px)}
+.nav .me{display:flex;align-items:center;gap:10px;padding:0 12px 0 4px;text-decoration:none;font-weight:600;font-size:14.5px;white-space:nowrap}
+.nav .me img{width:34px;height:34px;border-radius:50%;object-fit:cover;object-position:50% 22%;box-shadow:0 0 0 2px var(--glass-edge)}
+.nav ul{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.nav ul a{display:block;padding:9px 15px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:500;color:var(--muted);transition:background .25s,color .25s}
+.nav ul a:hover,.nav ul a[aria-current="true"]{color:var(--ink);background:var(--glass-top)}
+.icon-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:var(--ink);cursor:pointer;transition:background .25s}
+.icon-btn:hover{background:var(--glass-top)}
+.icon-btn svg{width:19px;height:19px}
+.menu-btn{display:none}
+.sheet-menu{display:none}
 
-.sec{padding:80px 0 0}
-.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:28px}
-.sec-head h2{font-size:clamp(34px,4vw,52px)}
+/* ---------- hero ---------- */
+.hero{padding:clamp(120px,16vh,170px) 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;align-items:stretch}
+.hero-copy{padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;justify-content:space-between;gap:36px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line)}
+.dot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.2);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(34,197,94,0)}}
+.hero h1{font-size:clamp(42px,6.6vw,88px);margin-top:22px;max-width:13ch}
+.hero h1 .serif{background:linear-gradient(100deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
+.lede{margin-top:20px;max-width:48ch;color:var(--muted);font-size:18px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;white-space:nowrap;min-height:50px;padding:0 22px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;transition:transform .25s,box-shadow .25s,background .25s}
+.btn svg{width:18px;height:18px;transition:transform .25s}
+.btn:hover svg{transform:translateX(3px)}
+.btn.primary{color:var(--on-accent);background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 70%,var(--accent-2)));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -8px color-mix(in srgb,var(--accent) 70%,transparent)}
+.btn.primary:hover{transform:translateY(-2px)}
+.btn.ghost{background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.btn.ghost:hover{transform:translateY(-2px)}
 
-/* project sheets */
-.sheet{background:var(--sheet);border:1px solid var(--line);margin-bottom:28px}
-.sheet-head{display:grid;grid-template-columns:auto 1fr auto;gap:0;border-bottom:1px solid var(--line)}
-.sheet-head>*{padding:12px 16px}
-.sheet-head .no{border-right:1px solid var(--line);font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500}
-.sheet-head .t{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.2}
-.sheet-head .k{border-left:1px solid var(--line)}
-.frame{aspect-ratio:16/8;display:grid;place-items:center;border-bottom:1px solid var(--line);
-  background:repeating-linear-gradient(135deg,transparent 0 12px,var(--hatch) 12px 13px)}
-.frame span{background:var(--sheet);border:1px solid var(--line);padding:8px 14px}
-.frame.has-img{aspect-ratio:auto;background:#fff;padding:0;display:block}
-.frame.has-img a{display:block}
-.frame.has-img img{display:block;width:100%;height:auto}
-.frame.two{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
-.frame.two figure{margin:0;background:#fff}
-.frame.two figcaption{padding:8px 10px;background:var(--sheet);border-top:1px solid var(--line)}
-.qty{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
-.qty div{padding:14px 16px;border-right:1px solid var(--line)}
-.qty div:last-child{border-right:0}
-.qty b{display:block;font-family:var(--display);font-size:26px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
-.spec{display:grid;grid-template-columns:1fr 1fr}
-.spec div{padding:16px;border-right:1px solid var(--line)}
-.spec div:last-child{border-right:0}
-.spec dt{margin-bottom:6px}
-.spec dd{margin:0;font-weight:500}
-.sheet-note{padding:16px;border-top:1px solid var(--line);color:var(--muted);max-width:none}
-.exp a,.cgrid a{text-decoration-thickness:1px;text-underline-offset:3px}
+.id-card{padding:22px;display:flex;flex-direction:column;gap:18px}
+.id-top{display:flex;gap:16px;align-items:center}
+.id-top img{width:76px;height:76px;border-radius:22px;object-fit:cover;object-position:50% 22%;box-shadow:0 0 0 1px var(--glass-edge),0 8px 20px -6px rgba(0,0,0,.3);background:var(--glass-top)}
+.id-top b{display:block;font-size:20px;letter-spacing:-.02em}
+.id-top span{color:var(--muted);font-size:14.5px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{padding:16px;border-radius:20px;background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line)}
+.stat b{display:block;font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:11.5px;padding:6px 10px;border-radius:999px;color:var(--muted);background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line)}
 
-/* capability rows */
-.rows{border-top:1px solid var(--ink)}
-.row{display:grid;grid-template-columns:64px 1fr 1.4fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
-.row:hover{background:var(--sheet)}
-.row h3{font-size:26px}
-.row p{color:var(--muted)}
+/* ---------- sections ---------- */
+.sec{padding:72px 0 0;scroll-margin-top:80px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sec-head h2{font-size:clamp(34px,4.6vw,58px)}
+.sec-head p{color:var(--muted);max-width:40ch}
+
+/* filter */
+.filters{display:flex;gap:6px;flex-wrap:wrap;padding:5px;border-radius:999px;width:max-content;max-width:100%}
+.filters button{border:0;background:transparent;color:var(--muted);font:500 14px var(--sans);padding:8px 15px;border-radius:999px;cursor:pointer;transition:background .25s,color .25s}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.filters button:hover:not([aria-pressed="true"]){color:var(--ink);background:var(--glass-top)}
+
+/* projects */
+.projects{display:grid;gap:22px}
+.project{padding:12px;display:grid;grid-template-columns:1.25fr 1fr;gap:12px;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.project[hidden]{display:none}
+.project.flip{grid-template-columns:1fr 1.25fr}
+.project.flip .media{order:2}
+.media{border-radius:20px;overflow:hidden;display:grid;gap:8px;align-content:start}
+.media.two{grid-template-columns:1fr}
+@media (min-width:640px) and (max-width:1000px){.media.two{grid-template-columns:1fr 1fr}}
+.shot{position:relative;margin:0;border-radius:18px;overflow:hidden;background:var(--paper);cursor:zoom-in;
+  box-shadow:0 0 0 1px var(--glass-line);aspect-ratio:1.414/1}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.shot:hover img{transform:scale(1.04)}
+.shot figcaption{position:absolute;left:8px;bottom:8px;right:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;
+  padding:7px 8px 7px 12px;border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#0B1220;
+  background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 4px 14px rgba(0,0,0,.12)}
+.shot figcaption span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shot figcaption .zoom{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#0B1220;color:#fff}
+.shot figcaption .zoom svg{width:12px;height:12px}
+.shot.wide{grid-column:1/-1}
+.media .more{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.media .more .shot{aspect-ratio:1.414/1}
+.media .more .shot figcaption{display:none}
+
+.info{padding:clamp(16px,2.4vw,26px);display:flex;flex-direction:column;gap:18px}
+.info-head{display:flex;justify-content:space-between;gap:12px;align-items:start}
+.info .no{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--accent);font-weight:500}
+.info h3{font-size:clamp(24px,2.6vw,32px);margin-top:6px}
+.info .kind{flex:none}
+.qty{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qty div{padding:12px 14px;border-radius:16px;background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line)}
+.qty b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.15;font-variant-numeric:tabular-nums}
+.qty span{font-size:12.5px;color:var(--muted)}
+.info dl{margin:0;display:grid;gap:12px}
+.info dt{margin-bottom:3px}
+.info dd{margin:0;font-weight:500}
+.info .note{color:var(--muted);font-size:15px}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.svc{padding:24px;grid-column:span 2;display:flex;flex-direction:column;gap:12px;min-height:220px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.svc:nth-child(4),.svc:nth-child(5){grid-column:span 3}
+.svc:hover{transform:translateY(-4px)}
+.svc .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--on-accent);
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 20px -6px color-mix(in srgb,var(--accent) 60%,transparent)}
+.svc .ic svg{width:22px;height:22px}
+.svc h3{font-size:22px;margin-top:auto}
+.svc p{color:var(--muted);font-size:15px}
 
 /* about */
-.about{display:grid;grid-template-columns:1fr 1fr;gap:56px}
-.about p.body{color:var(--muted);max-width:50ch;margin-top:16px}
-.tools{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:24px 0 0}
-.tools li{font-family:var(--mono);font-size:12.5px;padding:7px 11px;border:1px solid var(--line);background:var(--sheet)}
-.exp{border-top:1px solid var(--ink)}
-.exp div{display:grid;grid-template-columns:130px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
-.exp b{display:block;font-weight:600}
-.exp span{color:var(--muted)}
+.about{display:grid;grid-template-columns:1fr 1.1fr;gap:16px}
+.about > .glass{padding:clamp(22px,3vw,34px)}
+.about h2{font-size:clamp(34px,4.6vw,58px)}
+.about .body{color:var(--muted);margin-top:16px;max-width:52ch}
+.timeline{list-style:none;margin:10px 0 0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:6px;top:10px;bottom:10px;width:1.5px;background:linear-gradient(var(--accent),var(--accent-2),transparent)}
+.timeline li{position:relative;padding:12px 0 12px 30px}
+.timeline li::before{content:"";position:absolute;left:0;top:18px;width:13px;height:13px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 2px var(--accent)}
+.timeline b{display:block;font-weight:600}
+.timeline p{color:var(--muted);font-size:15px}
+.timeline .mono{display:block;margin-bottom:2px}
+.group-label{margin-top:26px}
+.group-label:first-child{margin-top:0}
 
 /* contact */
-.contact{padding:96px 0 48px}
-.contact h2{font-size:clamp(40px,6vw,88px);max-width:14ch}
-.contact h2 em{font-style:italic;color:var(--accent)}
-.cgrid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink)}
-.cgrid div{padding:18px 20px 18px 0}
-.cgrid .v{font-family:var(--mono);font-size:15px;margin-top:6px;overflow-wrap:anywhere}
-footer{padding:20px 0 40px;border-top:1px solid var(--line)}
+.contact{padding:clamp(28px,5vw,64px);margin-top:72px;text-align:center;overflow:hidden;scroll-margin-top:80px}
+.contact h2{font-size:clamp(38px,6.4vw,84px);max-width:14ch;margin:16px auto 0}
+.contact h2 .serif{background:linear-gradient(100deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.08em}
+.cgrid{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left}
+.cgrid a,.cgrid div{display:flex;flex-direction:column;gap:4px;padding:18px;border-radius:20px;text-decoration:none;min-width:0;
+  background:var(--glass-top);box-shadow:inset 0 1px 0 var(--glass-edge),0 0 0 1px var(--glass-line);transition:transform .3s}
+.cgrid a:hover{transform:translateY(-3px)}
+.cgrid .v{font-weight:500;overflow-wrap:anywhere}
+footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-@media (max-width:980px){
-  .page{grid-template-columns:1fr}
-  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px 24px;padding:18px 20px;border-right:0;border-bottom:1px solid var(--line)}
-  .side .id{display:flex;gap:14px;align-items:center}
-  .side .role{display:none}
-  .side h1{font-size:22px}
-  .mark{width:48px;height:48px}
-  .index{display:flex;gap:4px;border:0;margin-left:auto}
-  .index a{border:0;padding:10px}
-  .index a span,.side .status,.side .push{display:none}
-  .intro{padding-top:48px}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;background:rgba(5,8,15,.72);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.lb.open{display:flex}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-left));color:#fff}
+.lb-bar .cap{font-family:var(--mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-bar .grp{display:flex;gap:6px;flex:none}
+.lb .icon-btn{color:#fff;background:rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.lb .icon-btn:hover{background:rgba(255,255,255,.22)}
+.lb-stage{flex:1;overflow:auto;display:grid;place-items:center;padding:0 12px 12px;touch-action:pan-x pan-y pinch-zoom}
+.lb-stage img{max-width:100%;max-height:calc(100vh - 80px);border-radius:12px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.5);cursor:zoom-in}
+.lb-stage.zoomed{place-items:start}
+.lb-stage.zoomed img{max-width:none;max-height:none;width:220%;cursor:zoom-out}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr}
+  .project,.project.flip{grid-template-columns:1fr}
+  .project.flip .media{order:0}
+  .services{grid-template-columns:1fr 1fr}
+  .svc,.svc:nth-child(4),.svc:nth-child(5){grid-column:auto;min-height:0}
+  .svc:nth-child(5){grid-column:1/-1}
   .about{grid-template-columns:1fr}
-  .row{grid-template-columns:44px 1fr}
-  .row p{grid-column:2}
 }
-@media (max-width:620px){
-  .index a:nth-child(n+3){display:none}
-  .qty{grid-template-columns:1fr 1fr}
-  .qty div:nth-child(2n){border-right:0}
-  .spec{grid-template-columns:1fr}
-  .spec div{border-right:0;border-bottom:1px solid var(--line)}
-  .spec div:last-child{border-bottom:0}
-  .sheet-head{grid-template-columns:auto 1fr}
-  .sheet-head .k{display:none}
-  .frame{aspect-ratio:4/3}
-  .frame.has-img{aspect-ratio:auto}
-  .frame.two{grid-template-columns:1fr}
+@media (max-width:760px){
+  .nav{left:12px;right:12px;transform:none;width:auto;justify-content:space-between}
+  .nav ul{display:none}
+  .menu-btn{display:grid}
+  .sheet-menu{position:fixed;top:calc(max(14px,env(safe-area-inset-top)) + 62px);left:12px;right:12px;z-index:49;padding:8px;display:grid;gap:2px;
+    opacity:0;transform:translateY(-8px) scale(.98);pointer-events:none;transition:opacity .25s,transform .25s}
+  .sheet-menu.open{opacity:1;transform:none;pointer-events:auto}
+  .sheet-menu a{padding:14px 16px;border-radius:18px;text-decoration:none;font-weight:500;font-size:17px}
+  .sheet-menu a:hover{background:var(--glass-top)}
+  .hero{padding-top:100px}
+  .lede{font-size:16.5px}
+  .services{grid-template-columns:1fr}
+  .svc:nth-child(5){grid-column:auto}
   .cgrid{grid-template-columns:1fr}
-  .exp div{grid-template-columns:1fr;gap:4px}
+  .filters{width:100%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .filters button{flex:none}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (max-width:520px){
+  :root{--radius:24px}
+  .media.two{grid-template-columns:1fr}
+  .stat b{font-size:26px}
+  .qty b{font-size:19px}
+  .info-head{flex-direction:column}
+  .btn{flex:1;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .field i,.dot{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
-<div class="page">
+<div class="field" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
-  <aside class="side" id="top">
-    <div class="id">
-      <img class="mark" src="profile.jpg" alt="Portrait of Abdelrahman Hamdy" width="84" height="84">
-      <div>
-        <h1>Abdelrahman Hamdy</h1>
-        <p class="role">Structural BIM engineer · Cairo, Egypt</p>
-      </div>
-    </div>
-    <nav aria-label="Sheet index">
-      <ul class="index">
-        <li><a href="#work">Projects <span>04</span></a></li>
-        <li><a href="#services">Services <span>05</span></a></li>
-        <li><a href="#about">About <span>A</span></a></li>
-        <li><a href="#contact">Contact <span>C</span></a></li>
-      </ul>
-    </nav>
-    <p class="status mono"><i></i>Open to freelance work</p>
-    <div class="push">
-      <p class="mono">Email</p>
-      <p>abdelrahmanhamdy872@gmail.com</p>
-    </div>
-  </aside>
+<header class="nav glass" id="top">
+  <a class="me" href="#top" aria-label="Back to top"><img src="profile.jpg" alt="" width="34" height="34">Abdelrahman</a>
+  <nav aria-label="Sections">
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div style="display:flex;gap:2px">
+    <button class="icon-btn" id="theme" type="button" aria-label="Switch colour theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+    </button>
+    <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+  </div>
+</header>
+<nav class="sheet-menu glass" id="menu" aria-label="Sections">
+  <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+</nav>
 
-  <main class="main">
+<main class="wrap">
 
-    <section class="intro">
-      <div>
-        <p class="mono">Revit · Navisworks · MENA</p>
-        <h2 style="margin-top:14px">Structural models, <em>drawn to be built.</em></h2>
-        <p class="lede">Revit structural modeling and model-based shop drawings for foundations, high-rise towers and buildings, with IFC and COBie data, Navisworks coordination and automation built in.</p>
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy glass shine reveal">
+        <div>
+          <span class="chip"><span class="dot"></span>Open to freelance work</span>
+          <h1>Structural models, <em class="serif">drawn to be built.</em></h1>
+          <p class="lede">Revit structural modeling and model-based shop drawings for foundations, high-rise towers and buildings, with IFC and COBie data, Navisworks coordination and automation built in.</p>
+        </div>
         <div class="cta">
-          <a class="btn primary" href="#work">See the work</a>
+          <a class="btn primary" href="#work">See the work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn ghost" href="#contact">Get in touch</a>
         </div>
       </div>
-    </section>
 
-    <section class="sec" id="work">
-      <div class="sec-head"><h2>Project sheets</h2><p class="mono">Selected work · click a sheet to open it full size</p></div>
+      <aside class="id-card glass shine reveal" aria-label="Profile">
+        <div class="id-top">
+          <img src="profile.jpg" alt="Portrait of Abdelrahman Hamdy" width="76" height="76">
+          <div><b>Abdelrahman Hamdy</b><span>Structural BIM engineer · Cairo, Egypt</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>4</b><span>Featured projects</span></div>
+          <div class="stat"><b>79.7 t</b><span>Rebar scheduled, one raft</span></div>
+          <div class="stat"><b>LOD 400</b><span>Model detail</span></div>
+          <div class="stat"><b>MENA</b><span>Egypt · UAE</span></div>
+        </div>
+        <div class="stack" aria-label="Tools">
+          <span class="tag">Revit</span><span class="tag">Navisworks</span><span class="tag">Dynamo</span><span class="tag">Python</span><span class="tag">IFC</span><span class="tag">COBie</span>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-      <article class="sheet">
-        <div class="sheet-head"><div class="no">Sheet 01</div><div class="t">Gardenia — Raft foundation, blocks B12 &amp; B13</div><div class="k mono">Residential</div></div>
-        <div class="frame has-img">
-          <a href="gardenia-raft.jpg" aria-label="Open the raft reinforcement sheet at full size"><img src="gardenia-raft.jpg" alt="Raft foundation drawing sheet: bottom reinforcement plan B1 and B2, top reinforcement plan T1 and T2, both at 1 to 300, three sections at 1 to 100, and full rebar, wall, column and concrete schedules." loading="lazy" width="2000" height="1414"></a>
-        </div>
-        <div class="qty">
-          <div><b>79.9 t</b><span class="mono">T16 reinforcement</span></div>
-          <div><b>6,472</b><span class="mono">Bars scheduled</span></div>
-          <div><b>50,626 m</b><span class="mono">Total bar length</span></div>
-          <div><b>1,381 m³</b><span class="mono">Raft concrete</span></div>
-        </div>
-        <dl class="spec" style="margin:0">
-          <div><dt class="mono">Delivered</dt><dd>Bottom (B1/B2) and top (T1/T2) reinforcement plans at 1:300, three sections at 1:100, and rebar, wall, column and concrete schedules</dd></div>
-          <div><dt class="mono">Tools</dt><dd>Revit</dd></div>
-        </dl>
-        <p class="sheet-note">Raft reinforcement sheet for blocks B12 and B13, drawn from the Revit model so the plans, sections and bar bending schedules all come off one source. Bar marks are grouped by shape (straight, M_17 and M_17A) with quantities, lengths and weights scheduled per mark.</p>
-      </article>
-
-      <article class="sheet">
-        <div class="sheet-head"><div class="no">Sheet 02</div><div class="t">Administrative building, 12 floors — Cairo</div><div class="k mono">Offices</div></div>
-        <div class="frame has-img two">
-          <figure>
-            <a href="admin-f14.jpg" aria-label="Open the F14 combined footing sheet at full size"><img src="admin-f14.jpg" alt="Footing F14 sheet: section at 1 to 50, column section at 1 to 20, RC level plan, a 3D reinforcement view and the rebar schedule." loading="lazy" width="1700" height="1207"></a>
-            <figcaption class="mono">F14 combined footing</figcaption>
-          </figure>
-          <figure>
-            <a href="admin-f1.jpg" aria-label="Open the F1 footing sheet at full size"><img src="admin-f1.jpg" alt="Footing F1 sheet: section at 1 to 50, section 3 at 1 to 20, F1 plan at 1 to 50, a 3D reinforcement view and two rebar schedules." loading="lazy" width="1700" height="1207"></a>
-            <figcaption class="mono">F1 footing</figcaption>
-          </figure>
-        </div>
-        <div class="qty">
-          <div><b>12</b><span class="mono">Floors</span></div>
-          <div><b>−6.50 m</b><span class="mono">Foundation level</span></div>
-          <div><b>T22 / T16</b><span class="mono">Main bar sizes</span></div>
-          <div><b>1:20–1:50</b><span class="mono">Detail scales</span></div>
-        </div>
-        <dl class="spec" style="margin:0">
-          <div><dt class="mono">Delivered</dt><dd>Footing reinforcement sheets with sections, general arrangement, 3D reinforcement views, rebar schedules and general notes, on A1</dd></div>
-          <div><dt class="mono">Tools</dt><dd>Revit</dd></div>
-        </dl>
-        <p class="sheet-note">Foundation detailing for a twelve-storey administrative building. Each sheet carries the footing through section, plan and a 3D reinforcement view, with bar marks (B1, B2, T1, T2, ADD) called out by diameter, spacing and length, and the levels set from foundation at −6.50 m up to slab on grade at −4.50 m.</p>
-      </article>
-
-      <article class="sheet">
-        <div class="sheet-head"><div class="no">Sheet 03</div><div class="t">Dubai residential tower</div><div class="k mono">High-rise · UAE</div></div>
-        <div class="frame has-img two">
-          <figure>
-            <a href="dubai-sections.jpg" aria-label="Open the sections sheet at full size"><img src="dubai-sections.jpg" alt="Structural sections sheet: twelve sections from 1 to 20 up to 1 to 100 through post-tensioned slabs, grade slabs and a podium drop panel." loading="lazy" width="1700" height="1200"></a>
-            <figcaption class="mono">STR-4001 · Sections</figcaption>
-          </figure>
-          <figure>
-            <a href="dubai-columns.jpg" aria-label="Open the column details sheet at full size"><img src="dubai-columns.jpg" alt="Column details sheet: a schedule of tower and podium column types across floor bands, each with section, vertical bars and tie spacing." loading="lazy" width="1700" height="1200"></a>
-            <figcaption class="mono">STR-4002 · Column details</figcaption>
-          </figure>
-        </div>
-        <div class="qty">
-          <div><b>13</b><span class="mono">Column types</span></div>
-          <div><b>5</b><span class="mono">Floor bands</span></div>
-          <div><b>T20–T32</b><span class="mono">Vertical bars</span></div>
-          <div><b>PT slabs</b><span class="mono">300 / 400 mm</span></div>
-        </div>
-        <dl class="spec" style="margin:0">
-          <div><dt class="mono">Delivered</dt><dd>Structural sections and a column details schedule on A1, plus the IFC LOD 300 model package</dd></div>
-          <div><dt class="mono">Tools</dt><dd>Revit, IFC</dd></div>
-        </dl>
-        <p class="sheet-note">Sections cut through the post-tensioned slabs, grade slabs and podium drop panel at scales from 1:20 to 1:100. The column schedule carries each tower and podium type up the building in floor bands, from ground to underside of roof, with vertical bars and T12 ties at 100 called out per band. Title block details are redacted here.</p>
-      </article>
-
-      <article class="sheet">
-        <div class="sheet-head"><div class="no">Sheet 04</div><div class="t">Residential Villa</div><div class="k mono">Villa</div></div>
-        <dl class="spec" style="margin:0;border-top:0">
-          <div><dt class="mono">Delivered</dt><dd>Four-floor structural model and shop drawings</dd></div>
-          <div><dt class="mono">Tools</dt><dd>Revit, Dynamo</dd></div>
-        </dl>
-        <p class="sheet-note">Modeled the full structure in Revit, produced shop drawings, and coordinated clash-free with architecture and MEP.</p>
-      </article>
-    </section>
-
-    <section class="sec" id="services">
-      <div class="sec-head"><h2>What I deliver</h2><p class="mono">5 services</p></div>
-      <div class="rows">
-        <div class="row"><span class="mono">01</span><h3>Shop drawings</h3><p>Structural and reinforcement shop drawings with sheet setup, sections and details, produced directly from the Revit model.</p></div>
-        <div class="row"><span class="mono">02</span><h3>Structural modeling</h3><p>Detailed Revit models at LOD 300 and 400, plus as-built models, with structural families and shared parameters set up for coordination.</p></div>
-        <div class="row"><span class="mono">03</span><h3>Clash detection</h3><p>Model-based coordination in Navisworks with architecture and MEP, from clash detection through to resolution.</p></div>
-        <div class="row"><span class="mono">04</span><h3>Data and digital twin</h3><p>IFC LOD 300 packages and COBie data sheets that turn as-built models into operations-ready asset information.</p></div>
-        <div class="row"><span class="mono">05</span><h3>Automation and AI</h3><p>Dynamo, Python and AI assistants connected to Revit, used to speed up sheet creation, model checks and quantity extraction.</p></div>
+  <section class="sec" id="work">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono">Selected work</p>
+        <h2 style="margin-top:8px">Project <em class="serif">sheets</em></h2>
       </div>
-    </section>
+      <div class="filters glass" role="group" aria-label="Filter projects">
+        <button type="button" aria-pressed="true" data-f="all">All</button>
+        <button type="button" aria-pressed="false" data-f="residential">Residential</button>
+        <button type="button" aria-pressed="false" data-f="foundation">Foundations</button>
+        <button type="button" aria-pressed="false" data-f="highrise">High-rise</button>
+      </div>
+    </div>
 
-    <section class="sec" id="about">
-      <div class="about">
-        <div>
-          <h2 style="font-size:clamp(34px,4vw,52px)">About</h2>
-          <p class="body">I am a structural BIM engineer who produces model-based shop drawings and structural models for foundations, high-rise towers and buildings. I am also interested in digital twin technology: turning as-built models, IFC and COBie data into connected, operations-ready assets.</p>
-          <ul class="tools"><li>Revit</li><li>Navisworks</li><li>AutoCAD</li><li>Dynamo</li><li>Python</li><li>IFC</li><li>COBie</li><li>LOD 300 / 400</li><li>Excel</li></ul>
-          <p class="mono" style="margin-top:24px">Languages · Arabic (native), English (professional)</p>
+    <div class="projects">
+
+      <!-- 01 Gardenia -->
+      <article class="project glass reveal" data-cat="residential foundation" data-gallery="gardenia">
+        <div class="media two">
+          <figure class="shot" data-full="gardenia-main.jpg">
+            <img src="gardenia-main.jpg" alt="Raft main reinforcement sheet S.1: bottom reinforcement plans B1 and B2 and top reinforcement plans T1 and T2 at 1 to 250, with sections 1-1, 2-2 and 3-3 at 1 to 100 and the reinforcement legend." loading="lazy" width="2200" height="1556">
+            <figcaption><span>S.1 · Main reinforcement</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+          <figure class="shot" data-full="gardenia-schedule.jpg">
+            <img src="gardenia-schedule.jpg" alt="Raft rebar schedule sheet S.3: bar bending schedule for marks 1 to 30 with shapes, lengths and weights, plus wall, structural column and foundation schedules." loading="lazy" width="2200" height="1556">
+            <figcaption><span>S.3 · Rebar schedule</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
         </div>
-        <div>
-          <p class="mono" style="margin-bottom:14px">Experience</p>
-          <div class="exp">
-            <div><span class="mono">12/2025 – Now</span><p><b>Structural BIM Modeler, Corven</b><span>Shop drawings from Revit models, structural families and shared parameters, model-based coordination, and AI and Dynamo automation. Cairo.</span></p></div>
-            <div><span class="mono">10/2025 – 12/2025</span><p><b>Structural Design Engineer, Hamza Associates</b><span>Designed reinforced concrete bridge elements and prepared calculations, reports and structural drawings. Cairo.</span></p></div>
+        <div class="info">
+          <div class="info-head">
+            <div><span class="no">01 / Gardenia</span><h3>Raft foundation, blocks B12 &amp; B13</h3></div>
+            <span class="tag kind">Residential</span>
           </div>
-          <p class="mono" style="margin:32px 0 14px">Education and training</p>
-          <div class="exp">
-            <div><span class="mono">2020 – 2025</span><p><b>B.Sc. Structural Engineering, Tanta University</b><span>Thesis on the design of foundations.</span></p></div>
-            <div><span class="mono">03/2025 – 09/2025</span><p><b>BIM Management Diploma, Kayan Academy</b><span>Revit structural workflows, Navisworks coordination, BEP and model-based shop drawings.</span></p></div>
-            <div><span class="mono">02/2024 – 05/2024</span><p><b>Technical Office Diploma</b><span>Shop drawing preparation, quantity takeoff and structural drawing review.</span></p></div>
+          <div class="qty">
+            <div><b>79.7 t</b><span>T16 reinforcement</span></div>
+            <div><b>6,444</b><span>Bars scheduled</span></div>
+            <div><b>50,486 m</b><span>Total bar length</span></div>
+            <div><b>1,381 m³</b><span>Raft concrete</span></div>
           </div>
+          <dl>
+            <div><dt class="mono">Delivered</dt><dd>Bottom (B1/B2) and top (T1/T2) reinforcement plans at 1:250, three edge sections at 1:100, a 30-mark bar bending schedule, and wall, column and foundation schedules</dd></div>
+            <div><dt class="mono">Tools</dt><dd>Revit</dd></div>
+          </dl>
+          <p class="note">A 900 mm raft detailed to the Egyptian code ECP 203, drawn from the Revit model so plans, sections and bar bending schedules all come off one source. Bars are grouped by shape (straight, M_17 and M_17A) and cut lengths are kept to whole metres from 12 m stock, for 2.3% cutting waste.</p>
         </div>
-      </div>
-    </section>
+      </article>
 
-    <section class="contact" id="contact">
-      <p class="mono">Contact</p>
-      <h2 style="margin-top:14px">Have a model that needs <em>drawing?</em></h2>
-      <div class="cgrid">
-        <div><span class="mono">Email</span><p class="v"><a href="mailto:abdelrahmanhamdy872@gmail.com">abdelrahmanhamdy872@gmail.com</a></p></div>
-        <div><span class="mono">LinkedIn</span><p class="v"><a href="https://www.linkedin.com/in/abdelrahman-hamdy-343833353">linkedin.com/in/abdelrahman-hamdy-343833353</a></p></div>
-        <div><span class="mono">Phone / WhatsApp</span><p class="v">+20 155 737 0725</p></div>
-      </div>
-    </section>
+      <!-- 02 Admin -->
+      <article class="project flip glass reveal" data-cat="foundation" data-gallery="admin">
+        <div class="media two">
+          <figure class="shot" data-full="admin-f14.jpg">
+            <img src="admin-f14.jpg" alt="Footing F14 sheet: section at 1 to 50, column section at 1 to 20, RC level plan, a 3D reinforcement view and the rebar schedule." loading="lazy" width="1700" height="1207">
+            <figcaption><span>F14 combined footing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+          <figure class="shot" data-full="admin-f1.jpg">
+            <img src="admin-f1.jpg" alt="Footing F1 sheet: section at 1 to 50, section 3 at 1 to 20, F1 plan at 1 to 50, a 3D reinforcement view and two rebar schedules." loading="lazy" width="1700" height="1207">
+            <figcaption><span>F1 footing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+        </div>
+        <div class="info">
+          <div class="info-head">
+            <div><span class="no">02 / Cairo</span><h3>Administrative building, 12 floors</h3></div>
+            <span class="tag kind">Offices</span>
+          </div>
+          <div class="qty">
+            <div><b>12</b><span>Floors</span></div>
+            <div><b>−6.50 m</b><span>Foundation level</span></div>
+            <div><b>T22 / T16</b><span>Main bar sizes</span></div>
+            <div><b>1:20–1:50</b><span>Detail scales</span></div>
+          </div>
+          <dl>
+            <div><dt class="mono">Delivered</dt><dd>Footing reinforcement sheets with sections, general arrangement, 3D reinforcement views, rebar schedules and general notes, on A1</dd></div>
+            <div><dt class="mono">Tools</dt><dd>Revit</dd></div>
+          </dl>
+          <p class="note">Foundation detailing for a twelve-storey administrative building. Each sheet carries the footing through section, plan and a 3D reinforcement view, with bar marks (B1, B2, T1, T2, ADD) called out by diameter, spacing and length, and the levels set from foundation at −6.50 m up to slab on grade at −4.50 m.</p>
+        </div>
+      </article>
 
-    <footer><p class="mono">Abdelrahman Hamdy · Structural BIM · Cairo, Egypt</p><p class="mono" style="margin-top:8px">Drawings are shown as work samples. Title block and client details are redacted where the drawing requires it.</p></footer>
-  </main>
+      <!-- 03 Dubai -->
+      <article class="project glass reveal" data-cat="highrise residential" data-gallery="dubai">
+        <div class="media two">
+          <figure class="shot" data-full="dubai-sections.jpg">
+            <img src="dubai-sections.jpg" alt="Structural sections sheet: twelve sections from 1 to 20 up to 1 to 100 through post-tensioned slabs, grade slabs and a podium drop panel." loading="lazy" width="1700" height="1200">
+            <figcaption><span>STR-4001 · Sections</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+          <figure class="shot" data-full="dubai-columns.jpg">
+            <img src="dubai-columns.jpg" alt="Column details sheet: a schedule of tower and podium column types across floor bands, each with section, vertical bars and tie spacing." loading="lazy" width="1700" height="1200">
+            <figcaption><span>STR-4002 · Column details</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+        </div>
+        <div class="info">
+          <div class="info-head">
+            <div><span class="no">03 / Dubai</span><h3>Residential tower</h3></div>
+            <span class="tag kind">High-rise · UAE</span>
+          </div>
+          <div class="qty">
+            <div><b>13</b><span>Column types</span></div>
+            <div><b>5</b><span>Floor bands</span></div>
+            <div><b>T20–T32</b><span>Vertical bars</span></div>
+            <div><b>PT slabs</b><span>300 / 400 mm</span></div>
+          </div>
+          <dl>
+            <div><dt class="mono">Delivered</dt><dd>Structural sections and a column details schedule on A1, plus the IFC LOD 300 model package</dd></div>
+            <div><dt class="mono">Tools</dt><dd>Revit, IFC</dd></div>
+          </dl>
+          <p class="note">Sections cut through the post-tensioned slabs, grade slabs and podium drop panel at scales from 1:20 to 1:100. The column schedule carries each tower and podium type up the building in floor bands, from ground to underside of roof, with vertical bars and T12 ties at 100 called out per band. Title block details are redacted here.</p>
+        </div>
+      </article>
+
+      <!-- 04 Villa -->
+      <article class="project flip glass reveal" data-cat="residential foundation" data-gallery="villa">
+        <div class="media two">
+          <figure class="shot" data-full="villa-1.jpg">
+            <img src="villa-1.jpg" alt="Villa RC foundation sheet: foundation plan with footings, ground beams and retaining walls on a 10 by 9 grid, column, shear wall, retaining wall and beam schedules, and footing sections at 1 to 25." loading="lazy" width="2400" height="1698">
+            <figcaption><span>RC foundation</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+          <figure class="shot" data-full="villa-2.jpg">
+            <img src="villa-2.jpg" alt="Villa ground floor structural sheet: framing plan with beams, slabs and stair, beam, floor, stair landing, column and shear wall schedules, and slab sections at 1 to 25." loading="lazy" width="2400" height="1698">
+            <figcaption><span>Ground floor framing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
+          </figure>
+        </div>
+        <div class="info">
+          <div class="info-head">
+            <div><span class="no">04 / Villa</span><h3>Residential villa</h3></div>
+            <span class="tag kind">Villa</span>
+          </div>
+          <div class="qty">
+            <div><b>25</b><span>Columns, 16 types</span></div>
+            <div><b>4</b><span>Floors modeled</span></div>
+            <div><b>10 × 9</b><span>Structural grid</span></div>
+            <div><b>1:25</b><span>Section scale</span></div>
+          </div>
+          <dl>
+            <div><dt class="mono">Delivered</dt><dd>Four-floor structural model and A1 shop drawings: RC foundation plan with footings, ground beams and retaining walls, ground floor framing plan, column, wall, beam, slab and stair schedules, and sections at 1:25</dd></div>
+            <div><dt class="mono">Tools</dt><dd>Revit, Dynamo</dd></div>
+          </dl>
+          <p class="note">Modeled the full structure in Revit, produced shop drawings, and coordinated clash-free with architecture and MEP. Every schedule on the sheets (columns, shear and retaining walls, beams, slabs, stairs) is read straight off the model, level by level.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="sec" id="services">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono">5 services</p>
+        <h2 style="margin-top:8px">What I <em class="serif">deliver</em></h2>
+      </div>
+    </div>
+    <div class="services">
+      <div class="svc glass shine reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16M15 13h3M15 16h3"/></svg></span>
+        <h3>Shop drawings</h3>
+        <p>Structural and reinforcement shop drawings with sheet setup, sections and details, produced directly from the Revit model.</p>
+      </div>
+      <div class="svc glass shine reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg></span>
+        <h3>Structural modeling</h3>
+        <p>Detailed Revit models at LOD 300 and 400, plus as-built models, with structural families and shared parameters set up for coordination.</p>
+      </div>
+      <div class="svc glass shine reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg></span>
+        <h3>Clash detection</h3>
+        <p>Model-based coordination in Navisworks with architecture and MEP, from clash detection through to resolution.</p>
+      </div>
+      <div class="svc glass shine reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
+        <h3>Data and digital twin</h3>
+        <p>IFC LOD 300 packages and COBie data sheets that turn as-built models into operations-ready asset information.</p>
+      </div>
+      <div class="svc glass shine reveal">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <h3>Automation and AI</h3>
+        <p>Dynamo, Python and AI assistants connected to Revit, used to speed up sheet creation, model checks and quantity extraction.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about">
+    <div class="about">
+      <div class="glass reveal">
+        <p class="mono">About</p>
+        <h2 style="margin-top:8px">Engineer first, <em class="serif">modeler always.</em></h2>
+        <p class="body">I am a structural BIM engineer who produces model-based shop drawings and structural models for foundations, high-rise towers and buildings. I am also interested in digital twin technology: turning as-built models, IFC and COBie data into connected, operations-ready assets.</p>
+        <div class="stack" style="margin-top:22px" aria-label="Tools">
+          <span class="tag">Revit</span><span class="tag">Navisworks</span><span class="tag">AutoCAD</span><span class="tag">Dynamo</span><span class="tag">Python</span><span class="tag">IFC</span><span class="tag">COBie</span><span class="tag">LOD 300 / 400</span><span class="tag">Excel</span>
+        </div>
+        <p class="mono" style="margin-top:22px">Languages · Arabic (native), English (professional)</p>
+      </div>
+      <div class="glass reveal">
+        <p class="mono group-label">Experience</p>
+        <ol class="timeline">
+          <li><span class="mono">12/2025 – Now</span><b>Structural BIM Modeler, Corven</b><p>Shop drawings from Revit models, structural families and shared parameters, model-based coordination, and AI and Dynamo automation. Cairo.</p></li>
+          <li><span class="mono">10/2025 – 12/2025</span><b>Structural Design Engineer, Hamza Associates</b><p>Designed reinforced concrete bridge elements and prepared calculations, reports and structural drawings. Cairo.</p></li>
+        </ol>
+        <p class="mono group-label">Education and training</p>
+        <ol class="timeline">
+          <li><span class="mono">2020 – 2025</span><b>B.Sc. Structural Engineering, Tanta University</b><p>Thesis on the design of foundations.</p></li>
+          <li><span class="mono">03/2025 – 09/2025</span><b>BIM Management Diploma, Kayan Academy</b><p>Revit structural workflows, Navisworks coordination, BEP and model-based shop drawings.</p></li>
+          <li><span class="mono">02/2024 – 05/2024</span><b>Technical Office Diploma</b><p>Shop drawing preparation, quantity takeoff and structural drawing review.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact glass reveal" id="contact">
+    <span class="chip"><span class="dot"></span>Available for new projects</span>
+    <h2>Have a model that needs <em class="serif">drawing?</em></h2>
+    <div class="cgrid">
+      <a href="mailto:abdelrahmanhamdy872@gmail.com"><span class="mono">Email</span><span class="v">abdelrahmanhamdy872@gmail.com</span></a>
+      <a href="https://www.linkedin.com/in/abdelrahman-hamdy-343833353" target="_blank" rel="noopener"><span class="mono">LinkedIn</span><span class="v">in/abdelrahman-hamdy-343833353</span></a>
+      <a href="https://wa.me/201557370725" target="_blank" rel="noopener"><span class="mono">Phone / WhatsApp</span><span class="v">+20 155 737 0725</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <p class="mono">Abdelrahman Hamdy · Structural BIM · Cairo, Egypt</p>
+    <p class="mono">Drawings shown as work samples. Client details redacted where required.</p>
+  </footer>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Drawing viewer">
+  <div class="lb-bar">
+    <span class="cap" id="lbCap"></span>
+    <div class="grp">
+      <button class="icon-btn" id="lbPrev" type="button" aria-label="Previous sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="icon-btn" id="lbNext" type="button" aria-label="Next sheet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <a class="icon-btn" id="lbOpen" target="_blank" rel="noopener" aria-label="Open image in new tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+      <button class="icon-btn" id="lbClose" type="button" aria-label="Close viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+  </div>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
 </div>
+
+<script>
+(() => {
+  const root = document.documentElement;
+
+  // theme toggle (remembered per browser)
+  try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
+  document.getElementById('theme').addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+  });
+
+  // mobile menu
+  const menu = document.getElementById('menu'), menuBtn = document.getElementById('menuBtn');
+  const setMenu = open => { menu.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); };
+  menuBtn.addEventListener('click', () => setMenu(!menu.classList.contains('open')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+  // pointer sheen on glass
+  document.querySelectorAll('.glass.shine').forEach(el => el.addEventListener('pointermove', e => {
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+
+  // reveal on scroll
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // active nav link
+  const links = [...document.querySelectorAll('.nav ul a')];
+  const so = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.setAttribute('aria-current', a.hash === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  ['work', 'services', 'about', 'contact'].forEach(id => so.observe(document.getElementById(id)));
+
+  // project filter
+  const fbtns = document.querySelectorAll('.filters button');
+  fbtns.forEach(b => b.addEventListener('click', () => {
+    fbtns.forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('.project').forEach(p => {
+      p.hidden = b.dataset.f !== 'all' && !p.dataset.cat.split(' ').includes(b.dataset.f);
+    });
+  }));
+
+  // lightbox
+  const lb = document.getElementById('lb'), img = document.getElementById('lbImg'), cap = document.getElementById('lbCap'),
+        stage = document.getElementById('lbStage'), open = document.getElementById('lbOpen');
+  let set = [], i = 0, lastFocus = null;
+  const show = () => {
+    const f = set[i], src = f.dataset.full, t = f.querySelector('img');
+    stage.classList.remove('zoomed');
+    img.src = src; img.alt = t.alt; open.href = src;
+    const c = f.querySelector('figcaption span');
+    cap.textContent = (c ? c.textContent : t.alt.split(':')[0]) + '  ·  ' + (i + 1) + ' / ' + set.length;
+  };
+  const close = () => { lb.classList.remove('open'); document.body.style.overflow = ''; img.src = ''; if (lastFocus) lastFocus.focus(); };
+  document.querySelectorAll('.shot').forEach(f => {
+    f.tabIndex = 0; f.setAttribute('role', 'button');
+    const go = () => {
+      set = [...f.closest('[data-gallery]').querySelectorAll('.shot')]; i = set.indexOf(f); lastFocus = f;
+      show(); lb.classList.add('open'); document.body.style.overflow = 'hidden'; document.getElementById('lbClose').focus();
+    };
+    f.addEventListener('click', go);
+    f.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+  });
+  const step = d => { i = (i + d + set.length) % set.length; show(); };
+  document.getElementById('lbPrev').onclick = () => step(-1);
+  document.getElementById('lbNext').onclick = () => step(1);
+  document.getElementById('lbClose').onclick = close;
+  img.addEventListener('click', e => { e.stopPropagation(); stage.classList.toggle('zoomed'); });
+  stage.addEventListener('click', e => { if (e.target === stage) close(); });
+  addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') step(1);
+    if (e.key === 'ArrowLeft') step(-1);
+  });
+  let sx = null;
+  stage.addEventListener('touchstart', e => { if (e.touches.length === 1) sx = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (sx === null || stage.classList.contains('zoomed')) return;
+    const dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 60) step(dx < 0 ? 1 : -1);
+  });
+})();
+</script>
 </body>
 </html>

@@ -2,13 +2,16 @@ ABDELRAHMAN HAMDY — STRUCTURAL BIM PORTFOLIO
 =============================================
 
 FILES
-  index.html          the whole site (one page, all CSS inside)
-  profile.jpg         your photo (top of the side panel)
-  gardenia-raft.jpg   Sheet 01
-  admin-f14.jpg       Sheet 02
-  admin-f1.jpg        Sheet 02
-  dubai-sections.jpg  Sheet 03 (title block redacted)
-  dubai-columns.jpg   Sheet 03 (title block redacted)
+  index.html             the whole site (one page, all CSS and JS inside)
+  profile.jpg            your photo (top menu and profile card)
+  gardenia-main.jpg      Project 01 · S.1 raft main reinforcement
+  gardenia-schedule.jpg  Project 01 · S.3 raft rebar schedule
+  admin-f14.jpg          Project 02
+  admin-f1.jpg           Project 02
+  dubai-sections.jpg     Project 03 (title block redacted)
+  dubai-columns.jpg      Project 03 (title block redacted)
+  villa-1.jpg            Project 04 · RC foundation
+  villa-2.jpg            Project 04 · Ground floor framing
 
 Keep all files in the same folder. The page loads the images by
 file name, so renaming or moving one breaks that image.
