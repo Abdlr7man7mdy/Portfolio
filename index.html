@@ -74,11 +74,22 @@ em.serif,.serif{font-family:var(--serif);font-style:italic;font-weight:400;lette
 
 /* ---------- colour field ---------- */
 .field{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.field i{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;will-change:transform}
+/* Default (phones, tablets, reduced motion): one static painted gradient, no blur filter, no animation. */
+.field{background:
+  radial-gradient(60vmax 60vmax at 0% 0%,color-mix(in srgb,var(--blob-1) 55%,transparent),transparent 70%),
+  radial-gradient(50vmax 50vmax at 100% 30%,color-mix(in srgb,var(--blob-2) 50%,transparent),transparent 70%),
+  radial-gradient(50vmax 50vmax at 40% 100%,color-mix(in srgb,var(--blob-3) 50%,transparent),transparent 70%),
+  radial-gradient(30vmax 30vmax at 85% 85%,color-mix(in srgb,var(--blob-4) 30%,transparent),transparent 70%)}
+.field i{display:none}
+/* Large screens with a mouse: moving blurred blobs. */
+@media (min-width:1001px) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+.field{background:none}
+.field i{display:block;position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;will-change:transform}
 .field i:nth-child(1){width:52vmax;height:52vmax;left:-14vmax;top:-18vmax;background:var(--blob-1);animation:drift1 28s ease-in-out infinite alternate}
 .field i:nth-child(2){width:44vmax;height:44vmax;right:-16vmax;top:8vmax;background:var(--blob-2);animation:drift2 34s ease-in-out infinite alternate}
 .field i:nth-child(3){width:40vmax;height:40vmax;left:20vmax;bottom:-22vmax;background:var(--blob-3);animation:drift3 30s ease-in-out infinite alternate}
 .field i:nth-child(4){width:26vmax;height:26vmax;right:12vmax;bottom:6vmax;background:var(--blob-4);opacity:.35;animation:drift1 38s ease-in-out infinite alternate-reverse}
+}
 .field::after{content:"";position:absolute;inset:0;
   background-image:linear-gradient(var(--glass-line) 1px,transparent 1px),linear-gradient(90deg,var(--glass-line) 1px,transparent 1px);
   background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 70%)}
@@ -101,6 +112,20 @@ em.serif,.serif{font-family:var(--serif);font-style:italic;font-weight:400;lette
 .glass.shine:hover::after{opacity:1}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
   .glass{background:var(--bg)}
+}
+/* Touch devices: lighter glass. Smaller blur on the big panels only, none on small nested pieces,
+   no masked rim, and skip painting cards that are off screen. */
+@media (max-width:1000px),(pointer:coarse){
+  .glass{-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);
+    background:linear-gradient(155deg,var(--glass-top),var(--glass-bot)),color-mix(in srgb,var(--bg) 35%,transparent)}
+  .glass::before,.glass.shine::after{display:none}
+  .project,.svc,.about > .glass{-webkit-backdrop-filter:none;backdrop-filter:none;
+    background:linear-gradient(155deg,var(--glass-top),var(--glass-bot)),color-mix(in srgb,var(--bg) 62%,transparent)}
+  .project,.services,.about{content-visibility:auto;contain-intrinsic-size:auto 900px}
+  .btn.ghost{-webkit-backdrop-filter:none;backdrop-filter:none}
+  .shot figcaption{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,255,255,.9)}
+  .lb{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(5,8,15,.92)}
+  .reveal{transform:translateY(16px)}
 }
 
 /* ---------- nav ---------- */
@@ -377,11 +402,11 @@ footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;just
       <article class="project glass reveal" data-cat="residential foundation" data-gallery="gardenia">
         <div class="media two">
           <figure class="shot" data-full="gardenia-main.jpg">
-            <img src="gardenia-main.jpg" alt="Raft main reinforcement sheet S.1: bottom reinforcement plans B1 and B2 and top reinforcement plans T1 and T2 at 1 to 250, with sections 1-1, 2-2 and 3-3 at 1 to 100 and the reinforcement legend." loading="lazy" width="2200" height="1556">
+            <img src="gardenia-main-sm.jpg" alt="Raft main reinforcement sheet S.1: bottom reinforcement plans B1 and B2 and top reinforcement plans T1 and T2 at 1 to 250, with sections 1-1, 2-2 and 3-3 at 1 to 100 and the reinforcement legend." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>S.1 · Main reinforcement</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
           <figure class="shot" data-full="gardenia-schedule.jpg">
-            <img src="gardenia-schedule.jpg" alt="Raft rebar schedule sheet S.3: bar bending schedule for marks 1 to 30 with shapes, lengths and weights, plus wall, structural column and foundation schedules." loading="lazy" width="2200" height="1556">
+            <img src="gardenia-schedule-sm.jpg" alt="Raft rebar schedule sheet S.3: bar bending schedule for marks 1 to 30 with shapes, lengths and weights, plus wall, structural column and foundation schedules." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>S.3 · Rebar schedule</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
         </div>
@@ -408,11 +433,11 @@ footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;just
       <article class="project flip glass reveal" data-cat="foundation" data-gallery="admin">
         <div class="media two">
           <figure class="shot" data-full="admin-f14.jpg">
-            <img src="admin-f14.jpg" alt="Footing F14 sheet: section at 1 to 50, column section at 1 to 20, RC level plan, a 3D reinforcement view and the rebar schedule." loading="lazy" width="1700" height="1207">
+            <img src="admin-f14-sm.jpg" alt="Footing F14 sheet: section at 1 to 50, column section at 1 to 20, RC level plan, a 3D reinforcement view and the rebar schedule." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>F14 combined footing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
           <figure class="shot" data-full="admin-f1.jpg">
-            <img src="admin-f1.jpg" alt="Footing F1 sheet: section at 1 to 50, section 3 at 1 to 20, F1 plan at 1 to 50, a 3D reinforcement view and two rebar schedules." loading="lazy" width="1700" height="1207">
+            <img src="admin-f1-sm.jpg" alt="Footing F1 sheet: section at 1 to 50, section 3 at 1 to 20, F1 plan at 1 to 50, a 3D reinforcement view and two rebar schedules." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>F1 footing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
         </div>
@@ -439,11 +464,11 @@ footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;just
       <article class="project glass reveal" data-cat="highrise residential" data-gallery="dubai">
         <div class="media two">
           <figure class="shot" data-full="dubai-sections.jpg">
-            <img src="dubai-sections.jpg" alt="Structural sections sheet: twelve sections from 1 to 20 up to 1 to 100 through post-tensioned slabs, grade slabs and a podium drop panel." loading="lazy" width="1700" height="1200">
+            <img src="dubai-sections-sm.jpg" alt="Structural sections sheet: twelve sections from 1 to 20 up to 1 to 100 through post-tensioned slabs, grade slabs and a podium drop panel." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>STR-4001 · Sections</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
           <figure class="shot" data-full="dubai-columns.jpg">
-            <img src="dubai-columns.jpg" alt="Column details sheet: a schedule of tower and podium column types across floor bands, each with section, vertical bars and tie spacing." loading="lazy" width="1700" height="1200">
+            <img src="dubai-columns-sm.jpg" alt="Column details sheet: a schedule of tower and podium column types across floor bands, each with section, vertical bars and tie spacing." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>STR-4002 · Column details</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
         </div>
@@ -470,11 +495,11 @@ footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;just
       <article class="project flip glass reveal" data-cat="residential foundation" data-gallery="villa">
         <div class="media two">
           <figure class="shot" data-full="villa-1.jpg">
-            <img src="villa-1.jpg" alt="Villa RC foundation sheet: foundation plan with footings, ground beams and retaining walls on a 10 by 9 grid, column, shear wall, retaining wall and beam schedules, and footing sections at 1 to 25." loading="lazy" width="2400" height="1698">
+            <img src="villa-1-sm.jpg" alt="Villa RC foundation sheet: foundation plan with footings, ground beams and retaining walls on a 10 by 9 grid, column, shear wall, retaining wall and beam schedules, and footing sections at 1 to 25." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>RC foundation</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
           <figure class="shot" data-full="villa-2.jpg">
-            <img src="villa-2.jpg" alt="Villa ground floor structural sheet: framing plan with beams, slabs and stair, beam, floor, stair landing, column and shear wall schedules, and slab sections at 1 to 25." loading="lazy" width="2400" height="1698">
+            <img src="villa-2-sm.jpg" alt="Villa ground floor structural sheet: framing plan with beams, slabs and stair, beam, floor, stair landing, column and shear wall schedules, and slab sections at 1 to 25." loading="lazy" width="1000" height="707" decoding="async">
             <figcaption><span>Ground floor framing</span><span class="zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span></figcaption>
           </figure>
         </div>
@@ -611,7 +636,7 @@ footer{padding:36px 0 calc(40px + env(safe-area-inset-bottom));display:flex;just
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
 
   // pointer sheen on glass
-  document.querySelectorAll('.glass.shine').forEach(el => el.addEventListener('pointermove', e => {
+  if (matchMedia('(pointer: fine)').matches) document.querySelectorAll('.glass.shine').forEach(el => el.addEventListener('pointermove', e => {
     const r = el.getBoundingClientRect();
     el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
     el.style.setProperty('--my', (e.clientY - r.top) + 'px');
